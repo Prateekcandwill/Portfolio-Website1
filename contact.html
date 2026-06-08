@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prateek - Contact</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <style>
+        /* Base styles from existing site */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a23;
+            color: #ffffff;
+            transition: background-color 0.3s, color 0.3s;
+            padding-top: 3rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        body.light-mode {
+            background-color: #f0f0f5;
+            color: #0a0a23;
+        }
+        a { text-decoration: none; color: #ffffff; }
+        .container { max-width: 80rem; margin: 0 auto; padding: 0 1.5rem; }
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: transparent;
+            z-index: 60;
+            padding: 0.5rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        header.hidden {
+            transform: translateY(-100%);
+        }
+        .window-dots {
+            display: flex;
+            gap: 0.3rem;
+        }
+        .dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+        }
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
+        .window-title {
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 0.75rem;
+            color: #a0a0b0;
+        }
+        body.light-mode .window-title { color: #4a4a6e; }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            margin-left: 1rem;
+        }
+        .nav-links a {
+            color: #ffffff;
+            position: relative;
+            transition: color 0.3s;
+        }
+        body.light-mode .nav-links a { color: #0a0a23; }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.25rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        .nav-links a:hover { color: #3b82f6; }
+        .theme-toggle, .song-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-left: 1rem;
+            color: #ffffff;
+        }
+        body.light-mode .theme-toggle, body.light-mode .song-toggle { color: #0a0a23; }
+        .theme-icon::before { content: '☀️'; }
+        body.light-mode .theme-icon::before { content: '🌙'; }
+        .song-icon::before { content: '▶️'; }
+        .song-icon.playing::before { content: '⏸️'; }
+        /* Contact Section - Phone Interface */
+        .phone {
+            width: 320px;
+            height: 600px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #0a0a23;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        body.light-mode .phone-screen {
+            background: #4a4a6e;
+        }
+        .status-bar {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #ffffff;
+            height: 40px;
+        }
+        body.light-mode .status-bar {
+            color: #0a0a23;
+        }
+        .status-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .status-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            position: relative;
+        }
+        .app-container.fullscreen-active {
+            padding: 0;
+        }
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            z-index: 2;
+        }
+        body.light-mode .app-icon {
+            color: #0a0a23;
+        }
+        .app-icon:hover {
+            transform: scale(1.1);
+        }
+        .window {
+            background: #2e2e2e;
+            border: 1px solid #444;
+            border-radius: 5px;
+            width: 260px;
+            height: 400px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: absolute;
+            z-index: 1;
+        }
+        .window.fullscreen {
+            width: 100%;
+            height: calc(100% - 80px); /* Account for status and nav bar */
+            border-radius: 0;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            z-index: 3;
+        }
+        .window.minimized {
+            z-index: 1;
+        }
+        .window.minimized .content {
+            display: none;
+        }
+        .window.closed {
+            display: none;
+        }
+        .title-bar {
+            background: #3c3c3c;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #555;
+        }
+        .window-controls {
+            display: flex;
+            gap: 4px;
+        }
+        .control-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .minimize { background: #ffaa00; }
+        .maximize { background: #00cc00; }
+        .close { background: #ff5555; }
+        .title-bar-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            color: #d1d1d1;
+            flex: 1;
+            text-align: center;
+        }
+        .content {
+            padding: 10px;
+            height: 100%;
+            overflow-y: auto;
+            text-align: center;
+            background: #0a0a23;
+        }
+        body.light-mode .content {
+            background: #4a4a6e;
+        }
+        .profile {
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #555;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #ffffff;
+            border: 2px solid #3b82f6;
+        }
+        .name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .description {
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            color: #d1d1d1;
+            margin-bottom: 3px;
+        }
+        .location {
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 10px;
+            color: #a0a0b0;
+        }
+        .link-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+        body.light-mode .link-card {
+            color: #0a0a23;
+        }
+        .link-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .link-text {
+            flex: 1;
+            text-align: left;
+        }
+        .link-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+        .link-description {
+            font-family: 'Poppins', sans-serif;
+            font-size: 10px;
+            color: #a0a0b0;
+        }
+        .nav-bar {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 4;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-button {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        body.light-mode .nav-button {
+            color: #0a0a23;
+        }
+        .app-content {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 80px);
+            background: #0a0a23;
+            z-index: 3;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+        body.light-mode .app-content {
+            background: #4a4a6e;
+        }
+        .app-content.active {
+            display: block;
+        }
+        .error-message {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff5555;
+            border-radius: 5px;
+            padding: 10px;
+            color: #ffcccc;
+            font-size: 12px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .phone-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+        .phone-input {
+            flex: 1;
+            padding: 10px;
+            background: #1e1e2f;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        body.light-mode .phone-input {
+            color: #0a0a23;
+        }
+        .erase-button {
+            background: #3c3c3c;
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .erase-button:hover {
+            background: #4c4c4c;
+            transform: scale(1.05);
+        }
+        .dial-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 200px;
+        }
+        .dial-button {
+            background: linear-gradient(135deg, #3c3c3c, #2c2c2c);
+            padding: 15px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .dial-button:hover {
+            background: linear-gradient(135deg, #4c4c4c, #3c3c3c);
+            transform: scale(1.05);
+        }
+        .call-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .call-button {
+            background: linear-gradient(135deg, #00cc00, #00b300);
+            padding: 15px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .call-button:hover {
+            background: linear-gradient(135deg, #00e600, #00cc00);
+            transform: scale(1.1);
+        }
+        .clear-button {
+            background: linear-gradient(135deg, #ff5555, #e64444);
+            padding: 15px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .clear-button:hover {
+            background: linear-gradient(135deg, #ff6666, #ff5555);
+            transform: scale(1.1);
+        }
+        .call-status {
+            font-size: 12px;
+            color: #3b82f6;
+            margin-top: 5px;
+            display: none;
+        }
+        .call-status.active {
+            display: block;
+        }
+        .camera-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            background: #000;
+        }
+        .camera-top-bar {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .camera-control {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .camera-control:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .camera-viewfinder {
+            flex: 1;
+            width: 100%;
+            background: #1e1e2f;
+            position: relative;
+            overflow: hidden;
+        }
+        .camera-overlay {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.3) 70%);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .camera-bottom-bar {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .shutter-button {
+            background: #ffffff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #ccc;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        body.light-mode .shutter-button {
+            background: #0a0a23;
+        }
+        .shutter-button:hover {
+            transform: scale(1.1);
+        }
+        .gallery-button {
+            width: 40px;
+            height: 40px;
+            background: #3c3c3c;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .gallery-button:hover {
+            background: #4c4c4c;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .phone {
+                width: 300px;
+                height: 550px;
+            }
+            .window {
+                width: 240px;
+                height: 350px;
+            }
+            .nav-links {
+                gap: 0.5rem;
+                font-size: 0.75rem;
+            }
+            .theme-toggle, .song-toggle {
+                font-size: 0.875rem;
+                margin-left: 0.5rem;
+            }
+        }
+        @media (max-width: 640px) {
+            header {
+                padding: 0.25rem 0.5rem;
+            }
+            .window-title {
+                font-size: 0.625rem;
+            }
+            .dot {
+                width: 0.5rem;
+                height: 0.5rem;
+            }
+            .nav-links {
+                gap: 0.25rem;
+                font-size: 0.625rem;
+            }
+            .theme-toggle, .song-toggle {
+                font-size: 0.75rem;
+            }
+            .phone {
+                width: 280px;
+                height: 500px;
+            }
+            .window {
+                width: 220px;
+                height: 300px;
+            }
+            .avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            .name {
+                font-size: 16px;
+            }
+            .description, .location {
+                font-size: 10px;
+            }
+            .link-title {
+                font-size: 11px;
+            }
+            .link-description {
+                font-size: 9px;
+            }
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .phone {
+                width: 260px;
+                height: 450px;
+            }
+            .window {
+                width: 200px;
+                height: 280px;
+            }
+            .app-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            .status-bar {
+                font-size: 10px;
+                height: 35px;
+            }
+            .avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .name {
+                font-size: 14px;
+            }
+            .description, .location {
+                font-size: 9px;
+            }
+            .link-title {
+                font-size: 10px;
+            }
+            .link-description {
+                font-size: 8px;
+            }
+            .link-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
+            .dial-pad {
+                max-width: 180px;
+                gap: 8px;
+            }
+            .dial-button {
+                padding: 12px;
+                font-size: 16px;
+            }
+            .call-button, .clear-button {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            .erase-button {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+            .phone-input {
+                font-size: 14px;
+                padding: 8px;
+            }
+            .error-message {
+                font-size: 10px;
+                padding: 8px;
+            }
+            .shutter-button {
+                width: 50px;
+                height: 50px;
+            }
+            .gallery-button {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+            .nav-button {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="window-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+        </div>
+        <span class="window-title">[prateek@ai-eng]-[~/contact]</span>
+        <div class="nav-links">
+            <a href="index.html" data-section="home">home</a>
+            <a href="about.html" data-section="about">about</a>
+            <a href="about.html" data-section="about">Creative</a>
+            <a href="contact.html" class="active" data-section="contact">contact</a>
+        </div>
+        <button class="theme-toggle">
+            <span class="theme-icon"></span>
+        </button>
+        <button class="song-toggle">
+            <span class="song-icon"></span>
+        </button>
+        <audio id="background-song" loop>
+            <source src="Happy Piano Music  Beautiful Background Music [Copyright Free Music].mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </header>
+
+    <!-- Contact Section - Phone Interface -->
+    <div class="phone">
+        <div class="phone-screen">
+            <div class="status-bar">
+                <div class="status-bar-left">
+                    <span>📶</span>
+                    <span>02:21 AM</span>
+                </div>
+                <div class="status-bar-right">
+                    <span>Mon, May 26</span>
+                    <span>🔋 80%</span>
+                </div>
+            </div>
+            <div class="app-container" id="app-container">
+                <div class="app-icon" onclick="openApp('phone')">📞</div>
+                <div class="app-icon" onclick="openBrowser()">🌐</div>
+                <div class="app-icon" onclick="openApp('camera')">📷</div>
+                <div class="window" id="window">
+                    <div class="title-bar">
+                        <div class="title-bar-text">Prateek Kumar - Links</div>
+                        <div class="window-controls">
+                            <div class="control-button minimize" onclick="minimizeWindow()">-</div>
+                            <div class="control-button maximize" onclick="toggleFullscreen()">□</div>
+                            <div class="control-button close" onclick="closeWindow()">x</div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="profile">
+                            <div class="avatar">👤</div>
+                            <h1 class="name">Prateek Kumar</h1>
+                            <p class="description">AI Student | Robotics | LLMs | Agents</p>
+                            <p class="location">📍 Kolkata, WB</p>
+                        </div>
+                        <a href="https://github.com/prateekcandwill" class="link-card">
+                            <div class="link-icon">💻</div>
+                            <div class="link-text">
+                                <div class="link-title">GitHub Profile</div>
+                                <div class="link-description">View my code repositories & contributions</div>
+                            </div>
+                        </a>
+                        <a href="https://linkedin.com/in/prateekkumarcse" class="link-card">
+                            <div class="link-icon">👔</div>
+                            <div class="link-text">
+                                <div class="link-title">LinkedIn</div>
+                                <div class="link-description">Let's connect professionally</div>
+                            </div>
+                        </a>
+                        <a href="https://instagram.com/wan_prateekx56" class="link-card">
+                            <div class="link-icon">📸</div>
+                            <div class="link-text">
+                                <div class="link-title">Instagram</div>
+                                <div class="link-description">Can exchange reels</div>
+                            </div>
+                        </a>
+                        <a href="mailto:prateek.kumar17@s.amity.edu" class="link-card">
+                            <div class="link-icon">✉️</div>
+                            <div class="link-text">
+                                <div class="link-title">Email Me</div>
+                                <div class="link-description">Get in touch for collaborations</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="app-content" id="phone">
+                    <div class="phone-interface">
+                        <div class="error-message">If you know me well enough then you should have my no if not then contact me I will provide</div>
+                        <div class="input-container">
+                            <input type="text" class="phone-input" id="phone-input" placeholder="Enter number" readonly>
+                            <div class="erase-button" onclick="eraseNumber()">⌫</div>
+                        </div>
+                        <div class="dial-pad">
+                            <div class="dial-button" onclick="dialNumber('1')">1</div>
+                            <div class="dial-button" onclick="dialNumber('2')">2</div>
+                            <div class="dial-button" onclick="dialNumber('3')">3</div>
+                            <div class="dial-button" onclick="dialNumber('4')">4</div>
+                            <div class="dial-button" onclick="dialNumber('5')">5</div>
+                            <div class="dial-button" onclick="dialNumber('6')">6</div>
+                            <div class="dial-button" onclick="dialNumber('7')">7</div>
+                            <div class="dial-button" onclick="dialNumber('8')">8</div>
+                            <div class="dial-button" onclick="dialNumber('9')">9</div>
+                            <div class="dial-button" onclick="dialNumber('*')">*</div>
+                            <div class="dial-button" onclick="dialNumber('0')">0</div>
+                            <div class="dial-button" onclick="dialNumber('#')">#</div>
+                        </div>
+                        <div class="call-controls">
+                            <div class="call-button" onclick="startCall()">📞</div>
+                            <div class="clear-button" onclick="clearNumber()">✖</div>
+                        </div>
+                        <div class="call-status" id="call-status">Dialing...</div>
+                    </div>
+                </div>
+                <div class="app-content" id="browser" style="display: none;">
+                    <p>Browser app opened. Links window is in fullscreen.</p>
+                </div>
+                <div class="app-content" id="camera">
+                    <div class="camera-interface">
+                        <div class="camera-top-bar">
+                            <div class="camera-control">⚡</div>
+                            <div class="camera-control">🔄</div>
+                        </div>
+                        <div class="camera-viewfinder">
+                            <div class="camera-overlay"></div>
+                        </div>
+                        <div class="error-message">You look great enough this camera can't handle</div>
+                        <div class="camera-bottom-bar">
+                            <div class="gallery-button">📸</div>
+                            <div class="shutter-button"></div>
+                            <div class="gallery-button">🎥</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <div class="nav-buttons">
+                    <div class="nav-button" onclick="goBack()">◀</div>
+                    <div class="nav-button" onclick="goHome()">⚪</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Header JavaScript
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const windowTitle = document.querySelector('.window-title');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                const section = link.getAttribute('data-section');
+                windowTitle.textContent = `[prateek@ai-eng]-[~/${section}]`;
+            });
+        });
+
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        });
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        const songToggle = document.querySelector('.song-toggle');
+        const songIcon = document.querySelector('.song-icon');
+        const audio = document.getElementById('background-song');
+        songToggle.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                songIcon.classList.add('playing');
+            } else {
+                audio.pause();
+                songIcon.classList.remove('playing');
+            }
+        });
+
+        let lastScrollTop = 0;
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                header.classList.add('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+
+        // Phone Interface JavaScript
+        const windowElement = document.getElementById('window');
+        const appContents = document.querySelectorAll('.app-content');
+        const appContainer = document.getElementById('app-container');
+        let currentApp = null;
+
+        windowElement.classList.add('fullscreen');
+        appContainer.classList.add('fullscreen-active');
+
+        function minimizeWindow() {
+            windowElement.classList.add('minimized');
+            windowElement.classList.remove('fullscreen');
+            appContainer.classList.remove('fullscreen-active');
+            closeAllApps();
+        }
+
+        function toggleFullscreen() {
+            windowElement.classList.toggle('fullscreen');
+            if (windowElement.classList.contains('fullscreen')) {
+                appContainer.classList.add('fullscreen-active');
+            } else {
+                windowElement.classList.add('minimized');
+                appContainer.classList.remove('fullscreen-active');
+            }
+            closeAllApps();
+        }
+
+        function closeWindow() {
+            windowElement.classList.add('closed');
+            appContainer.classList.remove('fullscreen-active');
+            closeAllApps();
+        }
+
+        function goBack() {
+            if (currentApp) {
+                closeAllApps();
+            } else if (windowElement.classList.contains('fullscreen')) {
+                minimizeWindow();
+            }
+        }
+
+        function goHome() {
+            minimizeWindow();
+            closeAllApps();
+        }
+
+        function openApp(appId) {
+            closeAllApps();
+            const app = document.getElementById(appId);
+            app.classList.add('active');
+            currentApp = appId;
+            appContainer.classList.add('fullscreen-active');
+        }
+
+        function openBrowser() {
+            closeAllApps();
+            windowElement.classList.remove('minimized');
+            windowElement.classList.remove('closed');
+            windowElement.classList.add('fullscreen');
+            appContainer.classList.add('fullscreen-active');
+            currentApp = null;
+        }
+
+        function closeAllApps() {
+            appContents.forEach(app => app.classList.remove('active'));
+            currentApp = null;
+            if (!windowElement.classList.contains('fullscreen')) {
+                appContainer.classList.remove('fullscreen-active');
+            }
+        }
+
+        const phoneInput = document.getElementById('phone-input');
+        const callStatus = document.getElementById('call-status');
+
+        function dialNumber(number) {
+            phoneInput.value += number;
+            callStatus.classList.remove('active');
+        }
+
+        function clearNumber() {
+            phoneInput.value = '';
+            callStatus.classList.remove('active');
+        }
+
+        function eraseNumber() {
+            phoneInput.value = phoneInput.value.slice(0, -1);
+            callStatus.classList.remove('active');
+        }
+
+        function startCall() {
+            if (phoneInput.value) {
+                callStatus.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
